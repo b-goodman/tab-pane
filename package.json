@@ -1,0 +1,30 @@
+{
+  "name": "tab-pane",
+  "version": "1.0.0",
+  "description": "A custom element offering a tabbed-view of child components.",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "./node_modules/.bin/serve"
+  },
+  "devDependencies": {
+    "serve": "^11.2.0",
+    "typescript": "^3.7.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/b-goodman/tab-pane.git"
+  },
+  "keywords": [
+    "webcomponent",
+    "custom-element",
+    "tab",
+    "view"
+  ],
+  "author": "Benjamin Goodman",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/b-goodman/tab-pane/issues"
+  },
+  "homepage": "https://github.com/b-goodman/tab-pane#readme"
+}
