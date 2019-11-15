@@ -1,5 +1,5 @@
 {
-  "name": "tab-pane",
+  "name": "@bgoodman/tab-pane",
   "version": "1.0.0",
   "description": "A custom element offering a tabbed-view of child components.",
   "main": "./dist/index.js",
