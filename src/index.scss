@@ -1,0 +1,77 @@
+$selected-color: #00ffff;
+$box-shadow-color: #808080;
+$box-shadow-selected-color: #33cccc;
+$bg-color: #BDBDBD;
+$black: #000000;
+$dot-color: #000000;
+$dot-size: 1px;
+$dot-space: 3px;
+$font-weight: 400;
+$font-weight-selected: 600;
+
+@mixin tab-disable {
+    background-size: $dot-space $dot-space;
+    box-shadow: inset 2px 2px $box-shadow-color;
+    font-weight: $font-weight;
+}
+
+@mixin dots-background {
+    background:
+        linear-gradient(90deg, $bg-color ($dot-space - $dot-size), transparent 1%) center,
+        linear-gradient($bg-color ($dot-space - $dot-size), transparent 1%) center,
+        $dot-color;
+    background-size: $dot-space $dot-space;
+}
+
+.tabs {
+    display: flex;
+    flex-flow: row;
+}
+
+.tab-btn {
+    padding: 3px;
+    border: 1px solid black;
+    cursor: pointer;
+    box-shadow: 2px 2px $box-shadow-color;
+    font-family: monospace;
+    font-weight: $font-weight;
+
+    &:not(:last-of-type) {
+        margin: 0 3px 0 0;
+    }
+
+    &:hover {
+        box-shadow: unset;
+        font-weight: $font-weight-selected;
+    }
+
+    &:active {
+        box-shadow: inset 2px 2px $box-shadow-color;
+    }
+
+    &[data-selected="true"] {
+        font-weight: $font-weight-selected;
+        background: $selected-color;
+        box-shadow: inset 2px 2px $box-shadow-selected-color;
+    }
+
+    &[data-disabled="true"] {
+        @include tab-disable;
+        @include dots-background;
+    }
+}
+
+
+.pages {
+    padding: 2px;
+    width: inherit;
+    border: 1px solid $black;
+}
+
+.page {
+    display: none;
+
+    &[data-visible="true"] {
+        display: block;
+    }
+}

@@ -1,5 +1,5 @@
 export default class TabPane extends HTMLElement {
-    static readonly observedAttributes: string[];
+    static get observedAttributes(): string[];
     constructor();
     private selectedPane;
     private tabBtns;

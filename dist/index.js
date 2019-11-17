@@ -1,4 +1,6 @@
-export default class TabPane extends HTMLElement {
+var css = ".tabs {\n  display: flex;\n  flex-flow: row; }\n\n.tab-btn {\n  padding: 3px;\n  border: 1px solid black;\n  cursor: pointer;\n  box-shadow: 2px 2px #808080;\n  font-family: monospace;\n  font-weight: 400; }\n  .tab-btn:not(:last-of-type) {\n    margin: 0 3px 0 0; }\n  .tab-btn:hover {\n    box-shadow: unset;\n    font-weight: 600; }\n  .tab-btn:active {\n    box-shadow: inset 2px 2px #808080; }\n  .tab-btn[data-selected=\"true\"] {\n    font-weight: 600;\n    background: #00ffff;\n    box-shadow: inset 2px 2px #33cccc; }\n  .tab-btn[data-disabled=\"true\"] {\n    background-size: 3px 3px;\n    box-shadow: inset 2px 2px #808080;\n    font-weight: 400;\n    background: linear-gradient(90deg, #BDBDBD 2px, transparent 1%) center, linear-gradient(#BDBDBD 2px, transparent 1%) center, #000000;\n    background-size: 3px 3px; }\n\n.pages {\n  padding: 2px;\n  width: inherit;\n  border: 1px solid #000000; }\n\n.page {\n  display: none; }\n  .page[data-visible=\"true\"] {\n    display: block; }\n";
+
+class TabPane extends HTMLElement {
     constructor() {
         super();
         this.selectedPane = 0;
@@ -10,78 +12,9 @@ export default class TabPane extends HTMLElement {
             }
         };
         const lightPages = Array.from(this.children);
-        const style = `
-
-        :host {
-            --selected-color: #00ffff;
-            --box-shadow-color: #808080;
-            --box-shadow-selected-color: #33cccc;
-            --bg-color: #BDBDBD;
-            --black: #000000;
-            --dot-color: #000000;
-            --dot-size: 1px;
-            --dot-space: 3px;
-            --font-weight: 400;
-            --font-weight-selected: 600;
-        }
-
-        .tabs {
-            display: flex;
-            flex-flow: row;
-        }
-
-        .tab-btn {
-            padding: 3px;
-            border: 1px solid black;
-            cursor: pointer;
-            box-shadow: 2px 2px var(--box-shadow-color);
-            font-family: monospace;
-            font-weight: var(--font-weight);
-        }
-
-        .tab-btn:not(:last-of-type) {
-            margin: 0 3px 0 0;
-        }
-
-        .tab-btn:hover {
-            box-shadow: unset;
-            font-weight: var(--font-weight-selected);
-        }
-
-        .tab-btn:active {
-            box-shadow: inset 2px 2px var(--box-shadow-color);
-        }
-
-        .tab-btn[data-selected="true"] {
-            font-weight: var(--font-weight-selected);
-            background: var(--selected-color);
-            box-shadow: inset 2px 2px var(--box-shadow-selected-color);
-        }
-
-        .tab-btn[data-disabled="true"], .tab-btn[data-disabled="true"]:hover {
-            background: linear-gradient(90deg, var(--bg-color) calc( var(--dot-space) - var(--dot-size) ), transparent 1%) center, linear-gradient(var(--bg-color) calc( var(--dot-space) - var(--dot-size) ), transparent 1%) center, var(--dot-color);
-            background-size: var(--dot-space) var(--dot-space);
-            box-shadow: inset 2px 2px var(--box-shadow-color);
-            font-weight: var(--font-weight);
-        }
-
-        .pages {
-            padding: 2px;
-            width: inherit;
-            border: 1px solid var(--black);
-        }
-
-        .page {
-            display: none;
-        }
-
-        .page[data-visible="true"] {
-            display: block;
-        }
-        `;
         const template = document.createElement('template');
         template.innerHTML = `
-            <style>${style}</style>
+            <style>${css}</style>
             <div class="wrapper">
                 <div class="tabs">
                     ${lightPages.map((el, index) => {
@@ -118,4 +51,5 @@ export default class TabPane extends HTMLElement {
     ;
 }
 window.customElements.define('tab-pane', TabPane);
-//# sourceMappingURL=index.js.map
+
+export default TabPane;
