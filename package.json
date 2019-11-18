@@ -25,8 +25,8 @@
   "keywords": [
     "webcomponent",
     "custom-element",
-    "editor",
-    "codemirror"
+    "tab-view",
+    "tabs"
   ],
   "author": "Benjamin Goodman",
   "license": "MIT",
