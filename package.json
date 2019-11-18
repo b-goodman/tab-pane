@@ -1,7 +1,7 @@
 {
-  "name": "@bgoodman/code-edit",
+  "name": "@bgoodman/tab-pane",
   "version": "1.0.0",
-  "description": "A custom element implemeting codemirror.",
+  "description": "A custom element allowing tabbed views of child elements.",
   "main": "./dist/index.js",
   "scripts": {
     "build": "./node_modules/.bin/rollup -c rollup.config.js",
@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/b-goodman/code-edit.git"
+    "url": "git+https://github.com/b-goodman/tab-pane.git"
   },
   "keywords": [
     "webcomponent",
@@ -31,7 +31,7 @@
   "author": "Benjamin Goodman",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/b-goodman/code-edit/issues"
+    "url": "https://github.com/b-goodman/tab-pane/issues"
   },
-  "homepage": "https://github.com/b-goodman/code-edit#readme"
+  "homepage": "https://github.com/b-goodman/tab-pane#readme"
 }

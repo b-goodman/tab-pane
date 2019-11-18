@@ -1,4 +1,3 @@
-
 import style from "./index.scss";
 
 export default class TabPane extends HTMLElement {
@@ -7,9 +6,6 @@ export default class TabPane extends HTMLElement {
         return ["selected"];
     }
 
-    /**
-     * Assume for now that we have at least 1 child elem.?
-     */
     constructor() {
         super();
 
