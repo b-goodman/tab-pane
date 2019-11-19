@@ -1,9 +1,15 @@
 import style from "./index.scss";
 
+enum TabPosition {
+    TOP = "top",
+    LEFT = "left",
+    RIGHT = "right",
+}
+
 export default class TabPane extends HTMLElement {
 
     static get observedAttributes() {
-        return ["selected"];
+        return ["selected", "tab-position"];
     }
 
     constructor() {
@@ -14,7 +20,7 @@ export default class TabPane extends HTMLElement {
         const template = document.createElement('template');
         template.innerHTML = `
             <style>${style}</style>
-            <div class="wrapper">
+            <div class="wrapper" data-tab-position="${this.tabPosition}">
                 <div class="tabs">
                     ${lightPages.map( (el, index) => {
                         const disabled = el.hasAttribute("disabled");
@@ -32,6 +38,7 @@ export default class TabPane extends HTMLElement {
         const shadowRoot = this.attachShadow({mode: 'open'});
         shadowRoot.appendChild(template.content.cloneNode(true));
 
+        this.wrapper = this.shadowRoot!.querySelector<HTMLDivElement>(".wrapper")!;
         this.tabBtns = shadowRoot!.querySelectorAll<HTMLDivElement>(".tab-btn");
         this.pages = shadowRoot!.querySelectorAll<HTMLDivElement>(".page");
 
@@ -40,16 +47,24 @@ export default class TabPane extends HTMLElement {
         })
     }
 
-    // public attributeChangedCallback(name: string, _oldVal: string, newVal: string) {
-    //     if (name === "selected") {
-    //         this.setVisiblePage(parseInt(newVal));
-    //         this.setAttribute("selected", newVal);
-    //     }
-    // }
+    get tabPosition(): TabPosition {
+        return this.getAttribute("tab-position") as TabPosition || TabPosition.TOP
+    }
+
+    set tabPosition(newPosition: TabPosition) {
+        this.setAttribute("tab-position", newPosition)
+    }
+
+    public attributeChangedCallback(name: string, _oldVal: string, newVal: string) {
+        if (name === "tab-position" && _oldVal !== newVal) {
+            this.wrapper.dataset.tabPosition = newVal;
+        }
+    }
 
     private selectedPane:number = 0;
     private tabBtns: NodeListOf<HTMLDivElement>;
     private pages: NodeListOf<HTMLDivElement>;
+    private wrapper: HTMLDivElement;
 
     private handleTabClick = (event: MouseEvent) => {
         const el = event.currentTarget! as HTMLDivElement;

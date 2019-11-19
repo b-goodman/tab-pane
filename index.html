@@ -2,22 +2,47 @@
 
 <head>
     <script type="module" src="./dist/index.js"></script>
+
+    <style>
+        tab-pane {
+            width: 500px;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 
 <body>
 
     <tab-pane>
-        <div data-tab="Some Text">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        <div data-tab="Attributes">
+            Use attribute <em>tab-position</em> to place the tab bar at the <em>"top"</em>, <em>"left"</em> or <em>"right"</em> of the content.
+            <br>Give a tab the <em>disabled</em> attribute to disable it.
         </div>
         <div data-tab="Disabled" disabled>Nothing to see here.</div>
         <div data-tab="An Image">
             <img src="http://lorempixel.com/400/200/" />
+        </div>
+    </tab-pane>
+
+    <tab-pane>
+        <div data-tab="Nesting">
+            Multiple <em>tab-pane</em>s can be nested.
+        </div>
+        <div data-tab="More Tabs">
+            <tab-pane>
+                <div data-tab="Text">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </div>
+                <div data-tab="More Text">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua.
+                </div>
+            </tab-pane>
         </div>
     </tab-pane>
 

@@ -23,6 +23,28 @@ $font-weight-selected: 600;
     background-size: $dot-space $dot-space;
 }
 
+:host {
+    display: block;
+}
+
+.wrapper[data-tab-position="left"] {
+    display: flex;
+    flex-direction: row;
+
+    .tabs {
+        flex-flow: column;
+    }
+}
+
+.wrapper[data-tab-position="right"] {
+    display: flex;
+    flex-direction: row-reverse;
+
+    .tabs {
+        flex-flow: column;
+    }
+}
+
 .tabs {
     display: flex;
     flex-flow: row;
@@ -53,6 +75,8 @@ $font-weight-selected: 600;
         font-weight: $font-weight-selected;
         background: $selected-color;
         box-shadow: inset 2px 2px $box-shadow-selected-color;
+        white-space: nowrap;
+        overflow: hidden;
     }
 
     &[data-disabled="true"] {

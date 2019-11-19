@@ -16,7 +16,7 @@ The child elements of `tab-pane` becomes the tabbed views.  Use attribute `data-
 ```html
 <script type="module" src="./dist/index.js"></script>
 
-    <tab-pane>
+    <tab-pane tab-position="top">
         <div data-tab="Some Text">
             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
             tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
@@ -34,6 +34,10 @@ The child elements of `tab-pane` becomes the tabbed views.  Use attribute `data-
 ```
 
 ## Attributes
+
+## `tab-position`
+
+Specify if the tabs should be placed at the `"top"` (default), `"left"` or `"right"` of the content.
 
 ### `data-tab`
 
