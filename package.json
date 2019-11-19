@@ -28,7 +28,11 @@
     "tab-view",
     "tabs"
   ],
-  "author": "Benjamin Goodman",
+  "author": {
+    "name": "Benjamin Goodman",
+    "email": "b@thebgoodman.com",
+    "url": "https://thebgoodman.com"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/b-goodman/tab-pane/issues"
