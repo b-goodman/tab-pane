@@ -1,7 +1,6 @@
 # tab-pane
 
-Custom element wrapping arbitrary content in a draggable pane.
-Has optional buttons for collapsing content and removing pane entirely.
+Custom element wrapping arbitrary content in a tabbed view.
 
 ```bash
 npm install @bgoodman/tab-pane
@@ -35,17 +34,26 @@ The child elements of `tab-pane` becomes the tabbed views.  Use attribute `data-
 
 ## Attributes
 
-## `tab-position`
+### `tab-position`
 
 Specify if the tabs should be placed at the `"top"` (default), `"left"` or `"right"` of the content.
 
-### `data-tab`
+---
 
-Provide a string to set as the value for tab's button.
+### `background`
 
-### `disabled`
+Takes a value for the css rule `background`, governs the selected tab button and visible child.
+
+---
+
+### `data-tab` (child)
+
+Provide a string to set as the label for tab's button.
+
+---
+
+### `disabled` (child)
 
 If present or set as `"true"`, disables the click action of the tab button, making its view unreachable.
 
 ---
-
