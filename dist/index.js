@@ -1,4 +1,4 @@
-var css = ":host {\n  display: block; }\n\n.wrapper {\n  height: inherit;\n  display: flex; }\n  .wrapper[data-tab-position=\"left\"] {\n    flex-direction: row; }\n    .wrapper[data-tab-position=\"left\"] .tabs {\n      flex-flow: column; }\n  .wrapper[data-tab-position=\"right\"] {\n    flex-direction: row-reverse; }\n    .wrapper[data-tab-position=\"right\"] .tabs {\n      flex-flow: column; }\n\n.tabs {\n  display: flex;\n  flex-flow: row; }\n\n.tab-btn {\n  padding: 3px;\n  border: 1px solid black;\n  cursor: pointer;\n  box-shadow: 2px 2px #808080;\n  font-family: monospace;\n  font-weight: 400; }\n  .tab-btn:not(:last-of-type) {\n    margin: 0 3px 0 0; }\n  .tab-btn:hover {\n    box-shadow: unset;\n    font-weight: 600; }\n  .tab-btn:active {\n    box-shadow: inset 2px 2px #808080; }\n  .tab-btn[data-selected=\"true\"] {\n    font-weight: 600;\n    background: #00ffff;\n    box-shadow: inset 2px 2px #33cccc;\n    white-space: nowrap;\n    overflow: hidden; }\n  .tab-btn[data-disabled=\"true\"] {\n    background-size: 3px 3px;\n    box-shadow: inset 2px 2px #808080;\n    font-weight: 400;\n    background: linear-gradient(90deg, #BDBDBD 2px, transparent 1%) center, linear-gradient(#BDBDBD 2px, transparent 1%) center, #000000;\n    background-size: 3px 3px; }\n\n.pages {\n  padding: 2px;\n  width: inherit;\n  height: inherit;\n  border: 1px solid #000000; }\n\n.page {\n  display: none;\n  height: inherit; }\n  .page[data-visible=\"true\"] {\n    display: block; }\n";
+var css = ":host {\n  --content-bg-color: #ffffff;\n  --bg-color: #BDBDBD;\n  --font-black: #212121;\n  --font-weight: 400;\n  --font-weight-selected: 400;\n  display: block; }\n\n.wrapper {\n  height: inherit;\n  display: flex;\n  flex-direction: column; }\n  .wrapper[data-tab-position=\"left\"] {\n    flex-direction: row; }\n    .wrapper[data-tab-position=\"left\"] .tabs {\n      border-radius: 4px 0 0 4px;\n      padding: 5px 0 5px 10px;\n      flex-flow: column; }\n      .wrapper[data-tab-position=\"left\"] .tabs .tab-btn {\n        border-radius: 5px 0 0 5px;\n        padding: 5px 10px 5px 5px; }\n        .wrapper[data-tab-position=\"left\"] .tabs .tab-btn:hover:not([data-disabled=\"true\"]):not([data-selected=\"true\"]) {\n          background: #e0e0e0;\n          border-radius: 5px 0 0 5px; }\n        .wrapper[data-tab-position=\"left\"] .tabs .tab-btn:not(:last-of-type) {\n          margin: 0 0 1em 0; }\n  .wrapper[data-tab-position=\"top\"] .tabs {\n    border-radius: 4px 4px 0 0;\n    padding: 10px 5px 0 5px; }\n    .wrapper[data-tab-position=\"top\"] .tabs .tab-btn {\n      border-radius: 5px 5px 0 0;\n      padding: 5px 5px 10px 5px; }\n      .wrapper[data-tab-position=\"top\"] .tabs .tab-btn:hover:not([data-disabled=\"true\"]):not([data-selected=\"true\"]) {\n        border-radius: 5px 5px 0 0; }\n      .wrapper[data-tab-position=\"top\"] .tabs .tab-btn:not(:last-of-type) {\n        margin: 0 1em 0 0; }\n  .wrapper[data-tab-position=\"right\"] {\n    flex-direction: row-reverse; }\n    .wrapper[data-tab-position=\"right\"] .tabs {\n      flex-flow: column; }\n\n.tabs {\n  display: flex;\n  flex-flow: row;\n  background: #bdbdbd;\n  padding: 10px 5px 0 5px;\n  border-radius: 4px 4px 0 0; }\n\n.tab-btn {\n  font-family: Arial, \"Helvetica Neue\", Helvetica, sans-serif;\n  font-size: 14px;\n  font-style: normal;\n  font-variant: normal;\n  font-weight: var(--font-weight);\n  color: var(--font-black);\n  padding: 5px 5px 10px 5px;\n  cursor: pointer; }\n  .tab-btn:hover:not([data-disabled=\"true\"]):not([data-selected=\"true\"]) {\n    background: #e0e0e0; }\n  .tab-btn[data-selected=\"true\"] {\n    font-weight: var(--font-weight-selected);\n    background: var(--content-bg-color);\n    white-space: nowrap;\n    overflow: hidden;\n    border-radius: 5px 5px 0 0; }\n  .tab-btn[data-disabled=\"true\"] {\n    font-weight: var(--font-weight);\n    color: gray; }\n\n.pages {\n  width: inherit;\n  height: inherit; }\n\n::slotted(.page) {\n  display: none;\n  height: inherit;\n  background: var(--content-bg-color); }\n\n::slotted(.page[data-visible=\"true\"]) {\n  display: block; }\n";
 
 var TabPosition;
 (function (TabPosition) {
@@ -29,9 +29,7 @@ class TabPane extends HTMLElement {
         }).join('')}
                 </div>
                 <div class="pages">
-                    ${lightPages.map((el, index) => {
-            return `<div class="page" data-index="${index}" data-visible="${this.selectedPane === index}">${el.innerHTML}</div>`;
-        }).join('')}
+                    <slot></slot>
                 </div>
             </div>
         `;
@@ -39,13 +37,18 @@ class TabPane extends HTMLElement {
         shadowRoot.appendChild(template.content.cloneNode(true));
         this.wrapper = this.shadowRoot.querySelector(".wrapper");
         this.tabBtns = shadowRoot.querySelectorAll(".tab-btn");
-        this.pages = shadowRoot.querySelectorAll(".page");
+        this.pages = shadowRoot.querySelector("slot").assignedElements();
+        this.pages.forEach((el, index) => {
+            el.dataset.index = `${index}`;
+            el.dataset.visible = `${this.selectedPane === index}`;
+            el.classList.add("page");
+        });
         this.tabBtns.forEach((btn) => {
             btn.addEventListener("click", this.handleTabClick);
         });
     }
     static get observedAttributes() {
-        return ["selected", "tab-position"];
+        return ["selected", "tab-position", "background"];
     }
     get tabPosition() {
         return this.getAttribute("tab-position") || TabPosition.TOP;
@@ -56,6 +59,9 @@ class TabPane extends HTMLElement {
     attributeChangedCallback(name, _oldVal, newVal) {
         if (name === "tab-position" && _oldVal !== newVal) {
             this.wrapper.dataset.tabPosition = newVal;
+        }
+        if (name === "background") {
+            this.style.setProperty("--content-bg-color", newVal);
         }
     }
     setVisiblePage(newIndex) {

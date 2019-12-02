@@ -1,40 +1,76 @@
-$selected-color: #00ffff;
-$box-shadow-color: #808080;
-$box-shadow-selected-color: #33cccc;
-$bg-color: #BDBDBD;
-$black: #000000;
-$dot-color: #000000;
-$dot-size: 1px;
-$dot-space: 3px;
-$font-weight: 400;
-$font-weight-selected: 600;
+:host {
+    --content-bg-color: #ffffff;
+    --bg-color: #BDBDBD;
+    --font-black: #212121;;
+    --font-weight: 400;
+    --font-weight-selected: 400;
+    display: block;
+}
+
+@function v($var) {
+    @return var(--#{$var});
+}
 
 @mixin tab-disable {
-    background-size: $dot-space $dot-space;
-    box-shadow: inset 2px 2px $box-shadow-color;
-    font-weight: $font-weight;
+    font-weight: v(font-weight);
+    color: gray;
 }
 
-@mixin dots-background {
-    background:
-        linear-gradient(90deg, $bg-color ($dot-space - $dot-size), transparent 1%) center,
-        linear-gradient($bg-color ($dot-space - $dot-size), transparent 1%) center,
-        $dot-color;
-    background-size: $dot-space $dot-space;
-}
-
-:host {
-    display: block;
+@mixin tab-heading {
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: v(font-weight);
+    color: v(font-black);
 }
 
 .wrapper {
     height: inherit;
     display: flex;
+    flex-direction: column;
 
     &[data-tab-position="left"] {
         flex-direction: row;
+
         .tabs {
+            border-radius: 4px 0 0 4px;
+            padding: 5px 0 5px 10px;
             flex-flow: column;
+
+            .tab-btn {
+                border-radius: 5px 0 0 5px;
+                padding: 5px 10px 5px 5px;
+
+                &:hover:not([data-disabled="true"]):not([data-selected="true"]) {
+                    background: #e0e0e0;
+                    border-radius: 5px 0 0 5px;
+                }
+
+                &:not(:last-of-type) {
+                    margin: 0 0 1em 0;
+                }
+            }
+        }
+    }
+
+    &[data-tab-position="top"] {
+        .tabs {
+            border-radius: 4px 4px 0 0;
+            padding: 10px 5px 0 5px;
+
+            .tab-btn {
+                border-radius: 5px 5px 0 0;
+                padding: 5px 5px 10px 5px;
+
+                &:hover:not([data-disabled="true"]):not([data-selected="true"]) {
+                    border-radius: 5px 5px 0 0;
+                }
+
+                &:not(:last-of-type) {
+                    margin: 0 1em 0 0;
+                }
+            }
         }
     }
 
@@ -51,56 +87,46 @@ $font-weight-selected: 600;
 .tabs {
     display: flex;
     flex-flow: row;
+    background: #bdbdbd;
+    padding: 10px 5px 0 5px;
+    border-radius: 4px 4px 0 0;
 }
 
 .tab-btn {
-    padding: 3px;
-    border: 1px solid black;
+    @include tab-heading;
+    padding: 5px 5px 10px 5px;
     cursor: pointer;
-    box-shadow: 2px 2px $box-shadow-color;
-    font-family: monospace;
-    font-weight: $font-weight;
 
-    &:not(:last-of-type) {
-        margin: 0 3px 0 0;
-    }
-
-    &:hover {
-        box-shadow: unset;
-        font-weight: $font-weight-selected;
-    }
-
-    &:active {
-        box-shadow: inset 2px 2px $box-shadow-color;
+    &:hover:not([data-disabled="true"]):not([data-selected="true"]) {
+        background: #e0e0e0;
     }
 
     &[data-selected="true"] {
-        font-weight: $font-weight-selected;
-        background: $selected-color;
-        box-shadow: inset 2px 2px $box-shadow-selected-color;
+        font-weight: v(font-weight-selected);
+        background: v(content-bg-color);
         white-space: nowrap;
         overflow: hidden;
+        border-radius: 5px 5px 0 0;
     }
 
     &[data-disabled="true"] {
         @include tab-disable;
-        @include dots-background;
     }
 }
 
 
 .pages {
-    padding: 2px;
     width: inherit;
     height: inherit;
-    border: 1px solid $black;
 }
 
-.page {
+::slotted(.page) {
     display: none;
     height: inherit;
+    background: v(content-bg-color);
+}
 
-    &[data-visible="true"] {
-        display: block;
-    }
+
+::slotted(.page[data-visible="true"]) {
+    display: block;
 }

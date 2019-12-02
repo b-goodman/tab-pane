@@ -9,7 +9,7 @@ enum TabPosition {
 export default class TabPane extends HTMLElement {
 
     static get observedAttributes() {
-        return ["selected", "tab-position"];
+        return ["selected", "tab-position", "background"];
     }
 
     constructor() {
@@ -28,19 +28,27 @@ export default class TabPane extends HTMLElement {
                     }).join('')}
                 </div>
                 <div class="pages">
-                    ${lightPages.map( (el, index) => {
-                        return `<div class="page" data-index="${index}" data-visible="${this.selectedPane === index}">${el.innerHTML}</div>`
-                    }).join('')}
+                    <slot></slot>
                 </div>
             </div>
         `;
+
+        // ${lightPages.map( (el, index) => {
+        //     return `<div class="page" data-index="${index}" data-visible="${this.selectedPane === index}">${el.innerHTML}</div>`
+        // }).join('')}
 
         const shadowRoot = this.attachShadow({mode: 'open'});
         shadowRoot.appendChild(template.content.cloneNode(true));
 
         this.wrapper = this.shadowRoot!.querySelector<HTMLDivElement>(".wrapper")!;
         this.tabBtns = shadowRoot!.querySelectorAll<HTMLDivElement>(".tab-btn");
-        this.pages = shadowRoot!.querySelectorAll<HTMLDivElement>(".page");
+        this.pages = shadowRoot!.querySelector<HTMLSlotElement>("slot")!.assignedElements() as HTMLElement[];
+
+        this.pages.forEach( (el, index) => {
+            el.dataset.index=`${index}`;
+            el.dataset.visible=`${this.selectedPane === index}`;
+            el.classList.add("page");
+        });
 
         this.tabBtns.forEach( (btn) => {
             btn.addEventListener("click", this.handleTabClick)
@@ -59,11 +67,14 @@ export default class TabPane extends HTMLElement {
         if (name === "tab-position" && _oldVal !== newVal) {
             this.wrapper.dataset.tabPosition = newVal;
         }
+        if (name === "background") {
+            this.style.setProperty("--content-bg-color", newVal);
+        }
     }
 
     private selectedPane:number = 0;
     private tabBtns: NodeListOf<HTMLDivElement>;
-    private pages: NodeListOf<HTMLDivElement>;
+    private pages: HTMLElement[];
     private wrapper: HTMLDivElement;
 
     private handleTabClick = (event: MouseEvent) => {
