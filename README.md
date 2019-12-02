@@ -36,7 +36,7 @@ The child elements of `tab-pane` becomes the tabbed views.  Use attribute `data-
 
 ### `tab-position`
 
-Specify if the tabs should be placed at the `"top"` (default), `"left"` or `"right"` of the content.
+Specify if the tabs should be placed at the `"top"` (default) or `"left"` of the content.
 
 ---
 

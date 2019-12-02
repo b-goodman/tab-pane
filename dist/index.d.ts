@@ -1,7 +1,6 @@
 declare enum TabPosition {
     TOP = "top",
-    LEFT = "left",
-    RIGHT = "right"
+    LEFT = "left"
 }
 export default class TabPane extends HTMLElement {
     static get observedAttributes(): string[];

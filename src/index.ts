@@ -3,7 +3,7 @@ import style from "./index.scss";
 enum TabPosition {
     TOP = "top",
     LEFT = "left",
-    RIGHT = "right",
+    // RIGHT = "right",
 }
 
 export default class TabPane extends HTMLElement {
@@ -60,12 +60,22 @@ export default class TabPane extends HTMLElement {
     }
 
     set tabPosition(newPosition: TabPosition) {
-        this.setAttribute("tab-position", newPosition)
+        const validPositions = Object.keys(TabPosition);
+        if (validPositions.indexOf(newPosition)) {
+            this.setAttribute("tab-position", newPosition)
+        } else {
+            throw new Error(`Attribute "tab-position" must be one of: ${validPositions}`);
+        }
     }
 
     public attributeChangedCallback(name: string, _oldVal: string, newVal: string) {
         if (name === "tab-position" && _oldVal !== newVal) {
-            this.wrapper.dataset.tabPosition = newVal;
+            const validPositions = Object.keys(TabPosition);
+            if (validPositions.indexOf(newVal)) {
+                this.wrapper.dataset.tabPosition = newVal;
+            } else {
+                throw new Error(`Attribute "tab-position" must be one of: ${validPositions}`);
+            }
         }
         if (name === "background") {
             this.style.setProperty("--content-bg-color", newVal);

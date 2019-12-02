@@ -4,7 +4,6 @@ var TabPosition;
 (function (TabPosition) {
     TabPosition["TOP"] = "top";
     TabPosition["LEFT"] = "left";
-    TabPosition["RIGHT"] = "right";
 })(TabPosition || (TabPosition = {}));
 class TabPane extends HTMLElement {
     constructor() {
@@ -54,11 +53,23 @@ class TabPane extends HTMLElement {
         return this.getAttribute("tab-position") || TabPosition.TOP;
     }
     set tabPosition(newPosition) {
-        this.setAttribute("tab-position", newPosition);
+        const validPositions = Object.keys(TabPosition);
+        if (validPositions.indexOf(newPosition)) {
+            this.setAttribute("tab-position", newPosition);
+        }
+        else {
+            throw new Error(`Attribute "tab-position" must be one of: ${validPositions}`);
+        }
     }
     attributeChangedCallback(name, _oldVal, newVal) {
         if (name === "tab-position" && _oldVal !== newVal) {
-            this.wrapper.dataset.tabPosition = newVal;
+            const validPositions = Object.keys(TabPosition);
+            if (validPositions.indexOf(newVal)) {
+                this.wrapper.dataset.tabPosition = newVal;
+            }
+            else {
+                throw new Error(`Attribute "tab-position" must be one of: ${validPositions}`);
+            }
         }
         if (name === "background") {
             this.style.setProperty("--content-bg-color", newVal);
