@@ -34,9 +34,15 @@ The child elements of `tab-pane` becomes the tabbed views.  Use attribute `data-
 
 ## Attributes
 
+### `selected-pane`
+
+Sets the currently visible pane by its index, starting from 0 (first child).  Reflected as property `selectedPane`.
+
+---
+
 ### `tab-position`
 
-Specify if the tabs should be placed at the `"top"` (default) or `"left"` of the content.
+Specify placement of tabs as `"top"` (default) or `"left"` of the content.
 
 ---
 
@@ -57,3 +63,21 @@ Provide a string to set as the label for tab's button.
 If present or set as `"true"`, disables the click action of the tab button, making its view unreachable.
 
 ---
+
+## Properties
+
+### `selectedPane`
+
+Returns the index of the currently visible pane, starting from 0.
+Can be set to a new value to change the currently visible pane.
+Throws error if set value is out of range.
+
+### `tabPosition`
+
+Specify placement of tabs as `"top"` (default) or `"left"` of the content.
+
+## Events
+
+### `"tab-change"`
+
+Emitted on change of the `selectedPane` property.

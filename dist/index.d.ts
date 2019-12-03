@@ -4,11 +4,13 @@ declare enum TabPosition {
 }
 export default class TabPane extends HTMLElement {
     static get observedAttributes(): string[];
+    tabChangeEvent: Event;
     constructor();
     get tabPosition(): TabPosition;
     set tabPosition(newPosition: TabPosition);
+    get selectedPane(): number;
+    set selectedPane(newPaneIndex: number);
     attributeChangedCallback(name: string, _oldVal: string, newVal: string): void;
-    private selectedPane;
     private tabBtns;
     private pages;
     private wrapper;

@@ -1,7 +1,9 @@
 :host {
     --content-bg-color: #ffffff;
-    --bg-color: #BDBDBD;
-    --font-black: #212121;;
+    --bg-color: #e0e0e0;
+    --font-black: #212121;
+    --tab-drop-shadow-col: #757575;
+    --tab-border-col: #808080;
     --font-weight: 400;
     --font-weight-selected: 400;
     display: block;
@@ -29,6 +31,15 @@
     height: inherit;
     display: flex;
     flex-direction: column;
+
+    .tabs {
+        display: flex;
+        flex-flow: row;
+        background: v(bg-color);
+        padding: 10px 5px 0 5px;
+        border-radius: 4px 4px 0 0;
+        border: 1px solid v(tab-border-col);
+    }
 
     &[data-tab-position="left"] {
         flex-direction: row;
@@ -58,10 +69,15 @@
         .tabs {
             border-radius: 4px 4px 0 0;
             padding: 10px 5px 0 5px;
+            border-bottom: none;
 
             .tab-btn {
                 border-radius: 5px 5px 0 0;
                 padding: 5px 5px 10px 5px;
+
+                &[data-selected="true"] {
+                    border-bottom: none;
+                }
 
                 &:hover:not([data-disabled="true"]):not([data-selected="true"]) {
                     border-radius: 5px 5px 0 0;
@@ -84,13 +100,14 @@
 
 
 
-.tabs {
-    display: flex;
-    flex-flow: row;
-    background: #bdbdbd;
-    padding: 10px 5px 0 5px;
-    border-radius: 4px 4px 0 0;
-}
+// .tabs {
+//     display: flex;
+//     flex-flow: row;
+//     background: v(bg-color);
+//     padding: 10px 5px 0 5px;
+//     border-radius: 4px 4px 0 0;
+//     border: 1px solid v(tab-border-col);
+// }
 
 .tab-btn {
     @include tab-heading;
@@ -98,15 +115,18 @@
     cursor: pointer;
 
     &:hover:not([data-disabled="true"]):not([data-selected="true"]) {
-        background: #e0e0e0;
+        box-shadow: v(tab-drop-shadow-col) inset -1px 1px 2px 0px;
+        border-radius: 5px 5px 0 0;
     }
 
     &[data-selected="true"] {
         font-weight: v(font-weight-selected);
         background: v(content-bg-color);
+        box-shadow: v(tab-drop-shadow-col) 2px -1px 1px 0px;
         white-space: nowrap;
         overflow: hidden;
         border-radius: 5px 5px 0 0;
+        border: 1px solid v(tab-border-col);
     }
 
     &[data-disabled="true"] {

@@ -9,11 +9,18 @@ enum TabPosition {
 export default class TabPane extends HTMLElement {
 
     static get observedAttributes() {
-        return ["selected", "tab-position", "background"];
+        return ["selected-pane", "tab-position", "background"];
     }
+
+    public tabChangeEvent: Event = new Event("tab-change", {composed: true});
 
     constructor() {
         super();
+
+        const initialSelectedPane = this.getAttribute("selected-pane");
+        if (!initialSelectedPane) {
+            this.setAttribute("selected-pane", (this.selectedPane).toString() )
+        }
 
         const lightPages = Array.from(this.children) as HTMLElement[];
 
@@ -33,10 +40,6 @@ export default class TabPane extends HTMLElement {
             </div>
         `;
 
-        // ${lightPages.map( (el, index) => {
-        //     return `<div class="page" data-index="${index}" data-visible="${this.selectedPane === index}">${el.innerHTML}</div>`
-        // }).join('')}
-
         const shadowRoot = this.attachShadow({mode: 'open'});
         shadowRoot.appendChild(template.content.cloneNode(true));
 
@@ -55,6 +58,7 @@ export default class TabPane extends HTMLElement {
         })
     }
 
+
     get tabPosition(): TabPosition {
         return this.getAttribute("tab-position") as TabPosition || TabPosition.TOP
     }
@@ -65,6 +69,19 @@ export default class TabPane extends HTMLElement {
             this.setAttribute("tab-position", newPosition)
         } else {
             throw new Error(`Attribute "tab-position" must be one of: ${validPositions}`);
+        }
+    }
+
+    get selectedPane() {
+        const attr = this.getAttribute("selected-pane");
+        return attr ? parseInt(attr, 10) : 0;
+    }
+
+    set selectedPane(newPaneIndex: number) {
+        if (newPaneIndex < this.pages.length ) {
+            this.setAttribute("selected-pane", newPaneIndex.toString())
+        } else {
+            throw new Error(`Value of 'selectedPane' must be within range [0, ${this.pages.length - 1}].`);
         }
     }
 
@@ -80,9 +97,12 @@ export default class TabPane extends HTMLElement {
         if (name === "background") {
             this.style.setProperty("--content-bg-color", newVal);
         }
+        if (name === "selected-pane" && _oldVal !== newVal) {
+            this.setVisiblePage(parseInt(newVal))
+        }
     }
 
-    private selectedPane:number = 0;
+    // private selectedPane:number = 0;
     private tabBtns: NodeListOf<HTMLDivElement>;
     private pages: HTMLElement[];
     private wrapper: HTMLDivElement;
@@ -91,7 +111,8 @@ export default class TabPane extends HTMLElement {
         const el = event.currentTarget! as HTMLDivElement;
         if (!JSON.parse(el.dataset.disabled!)) {
             const newIndex = parseInt(el.dataset.index!);
-            this.setVisiblePage(newIndex);
+            // this.setVisiblePage(newIndex);
+            this.selectedPane = newIndex;
         }
     };
 
@@ -102,6 +123,7 @@ export default class TabPane extends HTMLElement {
         this.tabBtns.forEach( (el, pageIndex) => {
             el.dataset.selected = JSON.stringify(pageIndex === newIndex)
         });
+        this.dispatchEvent(this.tabChangeEvent)
     };
 
 }
